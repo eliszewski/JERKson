@@ -87,7 +87,6 @@ public class GroceryReporter {
 
         sb.append(String.format("%-15s\t \t %s: %d %s","Errors","seen",ip.getExceptionCounter() - 1 ,"times"));
         sb.append("\n");
-        System.out.println(sb);
         return sb.toString();
     }
 
