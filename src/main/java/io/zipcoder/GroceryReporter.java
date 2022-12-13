@@ -54,16 +54,6 @@ public class GroceryReporter {
              ) {
             nameToNumOfOcc.put(name, getNumOfOcc.apply(name,itemList));
         }
-
-        Function<List<Item>,List<Double>> getUniquePrices = (list) -> {
-            List<Double> result = new ArrayList<>();
-            Set<Double> set = new HashSet<>();
-            for (Item i: list
-            ) {
-                if(set.add(i.getPrice())) result.add(i.getPrice());
-            }
-            return result;
-        };
         LinkedHashMap<String,LinkedHashMap<Double,Integer>> nameToPricesOccMap  = new LinkedHashMap<>();
         for (String name: uniqueNames
              ) {
@@ -95,15 +85,6 @@ public class GroceryReporter {
             sb.append("\n");
         }
 
-//        int counter34 = 1;
-//        for (Item i: itemList
-//             ) {
-//            System.out.println(counter34);
-//            System.out.println( i + "\n");
-//            counter34++;
-//        }
-//        System.out.println(ip.getExceptionCounter());
-//        System.out.println(itemList.size());
         sb.append(String.format("%-15s\t \t %s: %d %s","Errors","seen",ip.getExceptionCounter() - 1 ,"times"));
         sb.append("\n");
         System.out.println(sb);
