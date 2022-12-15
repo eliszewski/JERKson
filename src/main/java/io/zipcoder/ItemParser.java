@@ -27,21 +27,16 @@ public class ItemParser {
             }catch (ItemParseException ignored) {
                 exceptionCounter++;
             }
-
         }
         return itemList;
     }
 
     public Item parseSingleItem(String singleItem) throws ItemParseException {
         String[] fields = new String[4];
-        // name(:,@,^*%)itemname;price(:,@,^*%)
         for (int i = 0; i < fields.length ; i++) {
             Pattern pattern = Pattern.compile("(?<="+fieldnames[i]+"[;:%@*^!]).*?(?=[;:%@*^#!]|$)", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(singleItem);
             if (matcher.find()){
-                if (checkForBadMatch(matcher.group()))
-                    throw new ItemParseException();
-                else
                     fields[i] = matcher.group().toLowerCase();
             }
         }
@@ -59,14 +54,15 @@ public class ItemParser {
             throw new ItemParseException();
         }
     }
-    public boolean checkForBadMatch(String s1){
-        return s1.equalsIgnoreCase("name") || s1.equalsIgnoreCase("price")
-                || s1.equalsIgnoreCase("type") || s1.equalsIgnoreCase("expiration");
-    }
     public void checkForBadItem(String[] fields) throws ItemParseException {
         for (String s: fields
              ) {
             if(s==null || s.trim().equals("") ) throw new ItemParseException();
+            else if(s.equalsIgnoreCase("name") || s.equalsIgnoreCase("price")
+               || s.equalsIgnoreCase("type") || s.equalsIgnoreCase("expiration"))
+                throw new ItemParseException();
         }
     }
+
+
 }
