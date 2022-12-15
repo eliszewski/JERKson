@@ -18,7 +18,7 @@ public class GroceryReporter {
     public String toString() {
         List<Item> items = findAndReplaceCo0kies(ip.parseItemList(originalFileText));;
 
-        //extract the names of all items in the list,
+        //extract the unique names of all items
         List<String> uniqueNames = items.stream()
                 .map(Item::getName)
                 .distinct()
@@ -40,13 +40,13 @@ public class GroceryReporter {
                     name.substring(1),"seen",itemsByName.get(name).size(),"times"));
             sb.append("============= \t \t =============\n");
             for (Double price: itemsByNameAndPrice.get(name).keySet()) {
-                List<Item> itemsWithNameAndPrice = itemsByNameAndPrice.get(name).get(price);
-                if(counter == 2) sb.append("-------------\t\t -------------\n");
+                int priceOccByItem = itemsByNameAndPrice.get(name).get(price).size();
+                if(counter % 2 == 0) sb.append("-------------\t\t -------------\n");
                 sb.append(String.format("Price: \t%5.2f\t\t %s: %d %s\n", price,"seen",
-                        itemsWithNameAndPrice.size(),itemsWithNameAndPrice.size() == 1 ? "time" : "times"));
+                        priceOccByItem,priceOccByItem == 1 ? "time" : "times"));
                 counter++;
             }
-            if(counter==2) sb.append("-------------\t\t -------------\n");
+            if(counter % 2 == 0) sb.append("-------------\t\t -------------\n");
             sb.append("\n");
         }
         sb.append(String.format("%-15s\t \t %s: %d %s","Errors","seen",ip.getExceptionCounter() - 1 ,"times"));
