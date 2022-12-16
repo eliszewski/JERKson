@@ -19,11 +19,10 @@ public class ItemParser {
 
     public List<Item> parseItemList(String valueToParse)  {
         List<Item> itemList = new ArrayList<>();
-        Pattern pattern = Pattern.compile("(?<=##|^).*?(?=##|$)");
-        Matcher matcher = pattern.matcher(valueToParse);
-        while(matcher.find()){
+        String [] parsed = valueToParse.split("##");
+        for(String s : parsed){
             try{
-                itemList.add(parseSingleItem(matcher.group()));
+                itemList.add(parseSingleItem(s));
             }catch (ItemParseException ignored) {
                 exceptionCounter++;
             }
@@ -63,6 +62,4 @@ public class ItemParser {
                 throw new ItemParseException();
         }
     }
-
-
 }
